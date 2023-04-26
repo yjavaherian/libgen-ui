@@ -14,6 +14,9 @@ export type Book = {
   year: number;
   edition: string;
 };
+export function isWhitespace(str: string): boolean {
+  return /^\s*$/.test(str);
+}
 
 function getOrdinalSuffix(num: number): string {
   const lastDigit = num % 10;
@@ -35,25 +38,23 @@ function getOrdinalSuffix(num: number): string {
 export async function getIDS(query: string) {
   let ids: number[] = [];
   let page = 1;
-  try {
-    while (true) {
-      const { data } = await axios.get("https://libgen.is/search.php", {
-        params: {
-          req: query,
-          page,
-          res: 100,
-        },
-      });
-      const $ = load(data);
-      const rows = $(".c > tbody > tr > td:nth-child(1)").toArray();
-      rows.shift();
-      ids = ids.concat(rows.map((e) => parseInt($(e).text())));
-      if (rows.length == 100) page++;
-      else break;
-    }
-  } catch (error) {
-    throw error;
+
+  while (true) {
+    const { data } = await axios.get("https://libgen.is/search.php", {
+      params: {
+        req: query,
+        page,
+        res: 100,
+      },
+    });
+    const $ = load(data);
+    const rows = $(".c > tbody > tr > td:nth-child(1)").toArray();
+    rows.shift();
+    ids = ids.concat(rows.map((e) => parseInt($(e).text())));
+    if (rows.length == 100) page++;
+    else break;
   }
+
   return ids;
 }
 function myParseInt(str: string) {
@@ -61,31 +62,26 @@ function myParseInt(str: string) {
 }
 
 export async function getBooks(ids: number[]): Promise<Book[]> {
-  try {
-    const { data } = await axios.get("https://libgen.is/json.php", {
-      params: {
-        ids: ids.join(","),
-        fields:
-          "id,title,author,publisher,pages,language,filesize,extension,md5,year,edition",
-      },
-    });
-    return data.map(
-      (datum: any): Book => ({
-        ...datum,
-        edition:
-          !isNaN(myParseInt(datum.edition)) &&
-          getOrdinalSuffix(myParseInt(datum.edition)).startsWith(datum.edition)
-            ? getOrdinalSuffix(myParseInt(datum.edition))
-            : datum.edition,
-        id: myParseInt(datum.id),
-        pages: myParseInt(datum.pages),
-        filesize: Number(
-          (myParseInt(datum.filesize) / (1024 * 1024)).toFixed(2)
-        ),
-        year: myParseInt(datum.year),
-      })
-    );
-  } catch (error) {
-    throw error;
-  }
+  if (ids.length == 0) return [];
+  const { data } = await axios.get("https://libgen.is/json.php", {
+    params: {
+      ids: ids.join(","),
+      fields:
+        "id,title,author,publisher,pages,language,filesize,extension,md5,year,edition",
+    },
+  });
+  return data.map(
+    (datum: any): Book => ({
+      ...datum,
+      edition:
+        !isNaN(myParseInt(datum.edition)) &&
+        getOrdinalSuffix(myParseInt(datum.edition)).startsWith(datum.edition)
+          ? getOrdinalSuffix(myParseInt(datum.edition))
+          : datum.edition,
+      id: myParseInt(datum.id),
+      pages: myParseInt(datum.pages),
+      filesize: Number((myParseInt(datum.filesize) / (1024 * 1024)).toFixed(2)),
+      year: myParseInt(datum.year),
+    })
+  );
 }
