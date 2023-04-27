@@ -58,7 +58,7 @@ export async function getIDS(query: string) {
   return ids;
 }
 function myParseInt(str: string) {
-  return parseInt(str.match(/\d+/)?.at(0) ?? "", 10);
+  return parseInt(str.match(/\d+/)?.at(0) ?? "0", 10);
 }
 
 export async function getBooks(ids: number[]): Promise<Book[]> {
@@ -74,7 +74,7 @@ export async function getBooks(ids: number[]): Promise<Book[]> {
     (datum: any): Book => ({
       ...datum,
       edition:
-        !isNaN(myParseInt(datum.edition)) &&
+        myParseInt(datum.edition) != 0 &&
         getOrdinalSuffix(myParseInt(datum.edition)).startsWith(datum.edition)
           ? getOrdinalSuffix(myParseInt(datum.edition))
           : datum.edition,
