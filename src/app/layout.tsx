@@ -1,7 +1,8 @@
 import SearchBar from "@/components/SearchBar";
 import "@/globals.css";
 import { Inter } from "next/font/google";
-import Head from "next/head";
+import JotaiProvider from "./provider";
+import EmotionProvider from "@/components/emotion";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,16 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={inter.className}>
-        <main className="flex min-h-screen flex-col items-center p-24 bg-stone-950 text-stone-200 gap-8">
-          <h1 className="text-5xl font-extrabold ">Libgen UI</h1>
+        <main className="flex flex-col min-h-screen p-24 gap-6 bg-stone-950 items-center text-stone-200">
+          <h1 className="text-5xl font-extrabold">Libgen UI</h1>
           <p className="text-sm">a modern UI for library genesis</p>
-          <SearchBar />
-          {children}
+          <EmotionProvider>
+            <JotaiProvider>
+              <SearchBar />
+              {/* <SortBox /> */}
+              {children}
+            </JotaiProvider>
+          </EmotionProvider>
         </main>
       </body>
     </html>
