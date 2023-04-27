@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import IconEnter from "./IconEnter";
 import { IconArrowBack } from "@tabler/icons-react";
 
 export default function SearchBar() {
