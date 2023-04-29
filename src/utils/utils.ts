@@ -18,6 +18,26 @@ export function isWhitespace(str: string): boolean {
   return /^\s*$/.test(str);
 }
 
+export function fieldIncludes(field: string | number, filter?: string) {
+  if (!filter) return true;
+  return (field as string).toLowerCase().includes(filter.toLowerCase());
+}
+
+export function fieldIncludesNot(field: string | number, filter?: string) {
+  if (!filter) return true;
+  return !(field as string).toLowerCase().includes(filter.toLowerCase());
+}
+
+export function fieldIsGreater(field: string | number, lower?: number) {
+  if (!lower) return true;
+  return (field as number) >= lower;
+}
+
+export function fieldIsSmaller(field: string | number, upper?: number) {
+  if (!upper) return true;
+  return (field as number) <= upper;
+}
+
 function getOrdinalSuffix(num: number): string {
   const lastDigit = num % 10;
   const secondLastDigit = Math.floor((num % 100) / 10);
