@@ -1,9 +1,8 @@
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/components/search/SearchBar";
 import "@/globals.css";
 import { Inter } from "next/font/google";
-import JotaiProvider from "./provider";
+import JotaiProvider from "@/utils/provider";
 import EmotionProvider from "@/utils/emotion";
-import FilterBox from "@/components/FilterBox";
 
 const inter = Inter({ subsets: ["latin"] });
 

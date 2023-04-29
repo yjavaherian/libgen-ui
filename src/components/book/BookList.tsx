@@ -10,10 +10,9 @@ import {
 } from "@/utils/utils";
 import { filterListAtom, sortListAtom } from "@/utils/store";
 import BookItem from "./BookItem";
-import SortBox from "./SortBox";
+import SortBox from "@/components/sort/SortBox";
 import { IconHash } from "@tabler/icons-react";
-import FilterBox from "./FilterBox";
-import { Divider } from "@mantine/core";
+import FilterBox from "@/components/filter/FilterBox";
 
 export default function BookList({ books }: { books: Book[] }) {
   const sortList = useAtomValue(sortListAtom);
