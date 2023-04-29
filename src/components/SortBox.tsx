@@ -3,7 +3,7 @@ import {
   nextSortItemIdAtom,
   remainedSortOptionsAtom,
   sortListAtom,
-} from "@/store";
+} from "@/utils/store";
 import {
   DndContext,
   closestCenter,
@@ -24,7 +24,7 @@ import { Menu } from "@mantine/core";
 import { useAtom, useAtomValue } from "jotai";
 import SortItem from "./SortItem";
 import { IconArrowsSort, IconPlus } from "@tabler/icons-react";
-import { Book } from "@/utils";
+import { Book } from "@/utils/utils";
 
 export default function SortBox() {
   const [items, setItems] = useAtom(sortListAtom);

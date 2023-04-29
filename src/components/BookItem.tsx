@@ -1,4 +1,4 @@
-import { Book } from "@/utils";
+import { Book } from "@/utils/utils";
 import { IconCalendarEvent, IconNews } from "@tabler/icons-react";
 
 export default function BookItem({ book }: { book: Book }) {

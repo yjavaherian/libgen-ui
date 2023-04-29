@@ -2,7 +2,8 @@ import SearchBar from "@/components/SearchBar";
 import "@/globals.css";
 import { Inter } from "next/font/google";
 import JotaiProvider from "./provider";
-import EmotionProvider from "@/components/emotion";
+import EmotionProvider from "@/utils/emotion";
+import FilterBox from "@/components/FilterBox";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,6 @@ export default function RootLayout({
           <EmotionProvider>
             <JotaiProvider>
               <SearchBar />
-              {/* <SortBox /> */}
               {children}
             </JotaiProvider>
           </EmotionProvider>

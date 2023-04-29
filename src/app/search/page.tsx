@@ -1,5 +1,5 @@
 import BookList from "@/components/BookList";
-import { getBooks, getIDS, isWhitespace } from "@/utils";
+import { getBooks, getIDS, isWhitespace } from "@/utils/utils";
 
 export default async function SearchResults({
   searchParams,
