@@ -1,4 +1,4 @@
-import BookList from "@/components/BookList";
+import BookList from "@/components/book/BookList";
 import { getBooks, getIDS, isWhitespace } from "@/utils/utils";
 
 export default async function SearchResults({
