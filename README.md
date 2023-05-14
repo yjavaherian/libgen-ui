@@ -9,3 +9,7 @@ This is a modern UI for Library Genesis written in Next.js 13 and deployed on ve
 5. run the development server `pnpm dev`
 6. visit the app on [http://localhost:3000](http://localhost:3000)
    First, make sure you have latest LTS node installed. then enable corepack using .
+
+# Libgen DB dump
+
+https://libgen.rs/dbdumps/libgen_compact.rar
