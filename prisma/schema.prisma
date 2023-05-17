@@ -9,44 +9,44 @@ datasource db {
 }
 
 model books {
-  id               Int       @id @default(autoincrement()) @db.UnsignedInt
-  title            String?   @db.VarChar(2000)
-  volumeInfo       String?   @db.VarChar(100)
-  series           String?   @db.VarChar(300)
-  periodical       String?   @db.VarChar(200)
-  author           String?   @db.VarChar(1000)
-  year             String?   @db.VarChar(14)
-  edition          String?   @db.VarChar(60)
-  publisher        String?   @db.VarChar(400)
-  city             String?   @db.VarChar(100)
-  pages            String?   @db.VarChar(100)
-  pagesInFile      Int?      @db.UnsignedInt
-  language         String?   @db.VarChar(150)
-  library          String?   @db.VarChar(50)
-  issue            String?   @db.VarChar(100)
-  identifier       String?   @db.VarChar(300)
-  issn             String?   @db.VarChar(9)
-  asin             String?   @db.VarChar(200)
-  udc              String?   @db.VarChar(200)
-  lbc              String?   @db.VarChar(200)
-  ddc              String?   @db.VarChar(45)
-  lcc              String?   @db.VarChar(45)
-  doi              String?   @db.VarChar(45)
-  googleBookID     String?   @db.VarChar(45)
-  openLibraryID    String?   @db.VarChar(200)
-  commentary       String?   @db.VarChar(10000)
-  dpi              Int?      @db.UnsignedInt
-  orientation      String?   @db.VarChar(1)
-  fileSize         BigInt?   @db.UnsignedBigInt
-  extension        String?   @db.VarChar(50)
-  md5              String?   @unique(map: "md5") @db.Char(32)
-  generic          String?   @db.Char(32)
-  visible          String?   @db.Char(3)
-  locator          String?   @db.VarChar(733)
-  timeAdded        DateTime? @db.Timestamp(0)
-  coverURL         String?   @db.VarChar(200)
-  tags             String?   @db.VarChar(500)
-  identifierWODash String?   @db.VarChar(300)
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
+  title            String?  @db.VarChar(2000)
+  volumeInfo       String?  @db.VarChar(100)
+  series           String?  @db.VarChar(300)
+  periodical       String?  @db.VarChar(200)
+  author           String?  @db.VarChar(1000)
+  year             String?  @db.VarChar(14)
+  edition          String?  @db.VarChar(60)
+  publisher        String?  @db.VarChar(400)
+  city             String?  @db.VarChar(100)
+  pages            String?  @db.VarChar(100)
+  pagesInFile      Int?     @db.UnsignedInt
+  language         String?  @db.VarChar(150)
+  library          String?  @db.VarChar(50)
+  issue            String?  @db.VarChar(100)
+  identifier       String?  @db.VarChar(300)
+  issn             String?  @db.VarChar(9)
+  asin             String?  @db.VarChar(200)
+  udc              String?  @db.VarChar(200)
+  lbc              String?  @db.VarChar(200)
+  ddc              String?  @db.VarChar(45)
+  lcc              String?  @db.VarChar(45)
+  doi              String?  @db.VarChar(45)
+  googleBookID     String?  @db.VarChar(45)
+  openLibraryID    String?  @db.VarChar(200)
+  commentary       String?  @db.VarChar(10000)
+  dpi              Int?     @db.UnsignedInt
+  orientation      String?  @db.VarChar(1)
+  fileSize         BigInt?  @db.UnsignedBigInt
+  extension        String?  @db.VarChar(50)
+  md5              String   @unique(map: "md5") @db.Char(32)
+  generic          String?  @db.Char(32)
+  visible          String?  @db.Char(3)
+  locator          String?  @db.VarChar(733)
+  timeAdded        DateTime @db.Timestamp(0)
+  coverURL         String?  @db.VarChar(200)
+  tags             String?  @db.VarChar(500)
+  identifierWODash String?  @db.VarChar(300)
   scanned          Boolean?
   color            Boolean?
   cleaned          Boolean?
@@ -56,24 +56,26 @@ model books {
 }
 
 view books_query {
-  id         Int     @id @default(0) @db.UnsignedInt
-  bagOfWords String? @db.Text
+  id         Int          @id @default(0) @db.UnsignedInt
+  bagOfWords String?      @db.Text
+  book       books_simple @relation(fields: [id], references: [id])
 }
 
 view books_simple {
-  id         Int       @id @default(0) @db.UnsignedInt
-  title      String?   @db.VarChar(2000)
-  author     String?   @db.VarChar(1000)
-  edition    String?   @db.VarChar(60)
-  year       String?   @db.VarChar(14)
-  publisher  String?   @db.VarChar(400)
-  pages      String?   @db.VarChar(100)
-  language   String?   @db.VarChar(150)
-  fileSize   Decimal?  @db.Decimal(23, 2)
-  extension  String?   @db.VarChar(50)
-  md5        String?   @db.Char(32)
-  locator    String?   @db.VarChar(733)
-  coverURL   String?   @db.VarChar(200)
-  timeAdded  DateTime? @db.Timestamp(0)
-  identifier String?   @db.VarChar(300)
+  id          Int          @id @default(0) @db.UnsignedInt
+  title       String?      @db.VarChar(2000)
+  author      String?      @db.VarChar(1000)
+  edition     String?      @db.VarChar(60)
+  year        String?      @db.VarChar(14)
+  publisher   String?      @db.VarChar(400)
+  pages       String?      @db.VarChar(100)
+  language    String?      @db.VarChar(150)
+  fileSize    Decimal?     @db.Decimal(23, 2)
+  extension   String?      @db.VarChar(50)
+  md5         String       @db.Char(32)
+  locator     String?      @db.VarChar(733)
+  coverURL    String?      @db.VarChar(200)
+  timeAdded   DateTime     @db.Timestamp(0)
+  identifier  String?      @db.VarChar(300)
+  books_query books_query?
 }
