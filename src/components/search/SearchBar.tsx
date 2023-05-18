@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IconArrowBack } from "@tabler/icons-react";
-
+import { useSearchParams } from "next/navigation";
 export default function SearchBar() {
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const router = useRouter();
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
