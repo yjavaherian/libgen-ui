@@ -1,6 +1,11 @@
 "use client";
 import BookList from "@/components/book/BookList";
-import { isWhitespace } from "@/utils/utils";
+import { Book, isWhitespace } from "@/utils/utils";
+import useSWR from "swr";
+import Loading from "./loading";
+
+const fetcher = (input: RequestInfo | URL, init?: RequestInit) =>
+  fetch(input, init).then((res) => res.json());
 
 export default async function SearchResults({
   searchParams,
@@ -11,13 +16,18 @@ export default async function SearchResults({
   if (query == undefined || isWhitespace(query))
     throw Error("Please provide a valid search query");
   try {
-    const start = performance.now();
-    const { books } = await fetch(`/search/api?q=${encodeURI(query)}`).then(
-      (d) => d.json()
-    );
+    const { data, error, isLoading } = useSWR<{
+      books: Book[];
+      queryTime: number;
+    }>(`/search/api?q=${encodeURIComponent(query)}`, fetcher);
 
+    if (error) throw Error(error);
+    if (isLoading) return <Loading />;
     return (
-      <BookList books={books} queryTime={performance.now() - start}></BookList>
+      <BookList
+        books={data?.books ?? []}
+        queryTime={data?.queryTime ?? 0}
+      ></BookList>
     );
   } catch (error) {
     throw Error(

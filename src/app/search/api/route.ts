@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { Book, isWhitespace, myParseInt, parseEdition } from "@/utils/utils";
 
 export async function GET(request: Request) {
+  const start = performance.now();
   const { searchParams } = new URL(request.url);
 
   const query = searchParams.get("q");
@@ -28,5 +29,5 @@ export async function GET(request: Request) {
     fileSize: Number(book.fileSize),
   }));
 
-  return NextResponse.json({ books });
+  return NextResponse.json({ books, queryTime: performance.now() - start });
 }
