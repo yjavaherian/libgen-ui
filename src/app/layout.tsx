@@ -3,6 +3,7 @@ import "@/globals.css";
 import { Inter } from "next/font/google";
 import JotaiProvider from "@/utils/provider";
 import EmotionProvider from "@/utils/emotion";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <main className="flex flex-col min-h-screen p-24 gap-6 bg-stone-950 items-center text-stone-200">
-          <h1 className="text-5xl font-extrabold">Libgen UI</h1>
+          <Link href={"/"} className="text-5xl font-extrabold">
+            Libgen UI
+          </Link>
           <p className="text-sm">a modern UI for library genesis</p>
           <EmotionProvider>
             <JotaiProvider>
