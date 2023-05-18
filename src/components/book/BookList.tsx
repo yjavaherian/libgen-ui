@@ -11,10 +11,16 @@ import {
 import { filterListAtom, sortListAtom } from "@/utils/store";
 import BookItem from "./BookItem";
 import SortBox from "@/components/sort/SortBox";
-import { IconHash } from "@tabler/icons-react";
+import { IconHash, IconHourglass } from "@tabler/icons-react";
 import FilterBox from "@/components/filter/FilterBox";
 
-export default function BookList({ books }: { books: Book[] }) {
+export default function BookList({
+  books,
+  queryTime,
+}: {
+  books: Book[];
+  queryTime: number;
+}) {
   const sortList = useAtomValue(sortListAtom);
   const filterList = useAtomValue(filterListAtom);
   if (books.length == 0) {
@@ -45,7 +51,7 @@ export default function BookList({ books }: { books: Book[] }) {
   );
   const sortedBooks = _.orderBy(
     filteredBooks,
-    sortList.map((s) => s.field),
+    sortList.map((s) => (b) => b[s.field] ?? ""), // replacing null's with '' so that the ordering won't get messed up.
     sortList.map((s) => s.order)
   );
   return (
@@ -64,6 +70,10 @@ export default function BookList({ books }: { books: Book[] }) {
           After Filtration
           <IconHash size={16} className="ml-1 text-stone-400" />
           {filteredBooks.length}
+        </span>
+        <span className="ml-6 inline-flex flex-row items-center mb-2 ">
+          <IconHourglass size={16} className="mr-1 text-stone-400" />
+          {queryTime.toFixed(0)} ms
         </span>
         <ol className="flex flex-col gap-2 justify-stretch">
           {sortedBooks.map((book) => (

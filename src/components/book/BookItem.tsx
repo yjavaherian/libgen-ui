@@ -14,16 +14,16 @@ export default function BookItem({ book }: { book: Book }) {
           <div className="flex flex-row gap-2">
             <span className="rounded bg-stone-600 px-1">{book.extension}</span>
             <span className="rounded bg-stone-600 px-1">
-              {book.filesize} MB
+              {book.fileSize} MB
             </span>
           </div>
           <div className="flex flex-row gap-2">
-            {!isNaN(book.year) && (
+            {book.year && (
               <span className="rounded bg-stone-600 px-1 flex flex-row items-center">
                 {book.year} <IconCalendarEvent size={16} />
               </span>
             )}
-            {!isNaN(book.pages) && (
+            {book.pages && (
               <span className="rounded bg-stone-600 px-1 flex flex-row items-center">
                 {book.pages} <IconNews size={16} />
               </span>
