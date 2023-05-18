@@ -1,39 +1,39 @@
-import { load } from "cheerio";
-import axios from "axios";
-
 export type Book = {
   id: number;
-  title: string;
-  author: string;
-  publisher: string;
-  pages: number;
-  language: string;
-  filesize: number;
-  extension: string;
   md5: string;
-  year: number;
-  edition: string;
+  title: string | null;
+  author: string | null;
+  publisher: string | null;
+  pages: number | null;
+  language: string | null;
+  fileSize: number | null;
+  extension: string | null;
+  edition: string | null;
+  year: number | null;
 };
 export function isWhitespace(str: string): boolean {
   return /^\s*$/.test(str);
 }
 
-export function fieldIncludes(field: string | number, filter?: string) {
+export function fieldIncludes(field: string | number | null, filter?: string) {
   if (!filter) return true;
   return (field as string).toLowerCase().includes(filter.toLowerCase());
 }
 
-export function fieldIncludesNot(field: string | number, filter?: string) {
+export function fieldIncludesNot(
+  field: string | number | null,
+  filter?: string
+) {
   if (!filter) return true;
   return !(field as string).toLowerCase().includes(filter.toLowerCase());
 }
 
-export function fieldIsGreater(field: string | number, lower?: number) {
+export function fieldIsGreater(field: string | number | null, lower?: number) {
   if (!lower) return true;
   return (field as number) >= lower;
 }
 
-export function fieldIsSmaller(field: string | number, upper?: number) {
+export function fieldIsSmaller(field: string | number | null, upper?: number) {
   if (!upper) return true;
   return (field as number) <= upper;
 }
@@ -54,54 +54,67 @@ function getOrdinalSuffix(num: number): string {
     return `${num}th edition`;
   }
 }
+export function myParseInt(str: string | null) {
+  const numberPart = str?.match(/\d+/)?.at(0);
+  if (!numberPart) return null;
+  return parseInt(numberPart);
+}
 
-export async function getIDS(query: string) {
-  let ids: number[] = [];
-  let page = 1;
-
-  while (true) {
-    const { data } = await axios.get("https://libgen.is/search.php", {
-      params: {
-        req: query,
-        page,
-        res: 100,
-      },
-    });
-    const $ = load(data);
-    const rows = $(".c > tbody > tr > td:nth-child(1)").toArray();
-    rows.shift();
-    ids = ids.concat(rows.map((e) => parseInt($(e).text())));
-    if (rows.length == 100) page++;
-    else break;
+export function parseEdition(edition: string | null) {
+  const editionNumber = myParseInt(edition);
+  if (
+    editionNumber &&
+    getOrdinalSuffix(editionNumber).startsWith(edition ?? "")
+  ) {
+    return getOrdinalSuffix(editionNumber);
   }
-
-  return ids;
-}
-function myParseInt(str: string) {
-  return parseInt(str.match(/\d+/)?.at(0) ?? "0", 10);
+  return edition;
 }
 
-export async function getBooks(ids: number[]): Promise<Book[]> {
-  if (ids.length == 0) return [];
-  const { data } = await axios.get("https://libgen.is/json.php", {
-    params: {
-      ids: ids.join(","),
-      fields:
-        "id,title,author,publisher,pages,language,filesize,extension,md5,year,edition",
-    },
-  });
-  return data.map(
-    (datum: any): Book => ({
-      ...datum,
-      edition:
-        myParseInt(datum.edition) != 0 &&
-        getOrdinalSuffix(myParseInt(datum.edition)).startsWith(datum.edition)
-          ? getOrdinalSuffix(myParseInt(datum.edition))
-          : datum.edition,
-      id: myParseInt(datum.id),
-      pages: myParseInt(datum.pages),
-      filesize: Number((myParseInt(datum.filesize) / (1024 * 1024)).toFixed(2)),
-      year: myParseInt(datum.year),
-    })
-  );
-}
+// export async function getIDS(query: string) {
+//   let ids: number[] = [];
+//   let page = 1;
+
+//   while (true) {
+//     const { data } = await axios.get("https://libgen.is/search.php", {
+//       params: {
+//         req: query,
+//         page,
+//         res: 100,
+//       },
+//     });
+//     const $ = load(data);
+//     const rows = $(".c > tbody > tr > td:nth-child(1)").toArray();
+//     rows.shift();
+//     ids = ids.concat(rows.map((e) => parseInt($(e).text())));
+//     if (rows.length == 100) page++;
+//     else break;
+//   }
+
+//   return ids;
+// }
+
+// export async function getBooks(ids: number[]): Promise<Book[]> {
+//   if (ids.length == 0) return [];
+//   const { data } = await axios.get("https://libgen.is/json.php", {
+//     params: {
+//       ids: ids.join(","),
+//       fields:
+//         "id,title,author,publisher,pages,language,filesize,extension,md5,year,edition",
+//     },
+//   });
+//   return data.map(
+//     (datum: any): Book => ({
+//       ...datum,
+//       edition:
+//         myParseInt(datum.edition) != 0 &&
+//         getOrdinalSuffix(myParseInt(datum.edition)).startsWith(datum.edition)
+//           ? getOrdinalSuffix(myParseInt(datum.edition))
+//           : datum.edition,
+//       id: myParseInt(datum.id),
+//       pages: myParseInt(datum.pages),
+//       filesize: Number((myParseInt(datum.filesize) / (1024 * 1024)).toFixed(2)),
+//       year: myParseInt(datum.year),
+//     })
+//   );
+// }
