@@ -1,3 +1,8 @@
+// locator     String?      @db.VarChar(733)
+// coverURL    String?      @db.VarChar(200)
+// timeAdded   DateTime     @db.Timestamp(0)
+// identifier  String?      @db.VarChar(300)
+
 export type Book = {
   id: number;
   md5: string;

@@ -41,7 +41,7 @@ const allSortOptions: (keyof Book)[] = [
   "year",
   "extension",
   "author",
-  "filesize",
+  "fileSize",
   "title",
   "publisher",
   "pages",
