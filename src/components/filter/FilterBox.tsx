@@ -6,14 +6,12 @@ import {
   filterListAtom,
   nextFilterItemIdAtom,
 } from "@/utils/store";
-import { Button, Menu, Popover, Select, TextInput } from "@mantine/core";
+import { Button, Popover, Select, TextInput } from "@mantine/core";
 import { useAtom, useAtomValue } from "jotai";
 import { IconMathGreater, IconMathLower, IconPlus } from "@tabler/icons-react";
 import FilterItem from "./FilterItem";
-// import MenuFilterItem from "./MenuFilterItem";
 import { useRef, useState } from "react";
 import { Book } from "@/utils/utils";
-import { useDisclosure } from "@mantine/hooks";
 
 export default function FilterBox() {
   const [items, setItems] = useAtom(filterListAtom);
@@ -26,12 +24,8 @@ export default function FilterBox() {
   const ref2 = useRef<HTMLInputElement>(null);
   const ref3 = useRef<HTMLInputElement>(null);
   const ref4 = useRef<HTMLInputElement>(null);
-  // const [opened, { close, open }] = useDisclosure(false);
   return (
     <div className="flex flex-row items-center gap-2 pt-2">
-      {items.map((f) => (
-        <FilterItem key={f.id} filter={f} />
-      ))}
       <Popover width={250} shadow="md" trapFocus>
         <Popover.Target>
           <button className="flex flex-row items-center gap-1 rounded-md p-1 hover:bg-opacity-50 bg-opacity-0 bg-stone-600">
@@ -97,6 +91,9 @@ export default function FilterBox() {
           </Button>
         </Popover.Dropdown>
       </Popover>
+      {items.map((f) => (
+        <FilterItem key={f.id} filter={f} />
+      ))}
     </div>
   );
 }

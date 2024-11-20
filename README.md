@@ -10,6 +10,8 @@ This is a modern UI for Library Genesis written in Next.js 13 and deployed on ve
 6. visit the app on [http://localhost:3000](http://localhost:3000)
    First, make sure you have latest LTS node installed. then enable corepack using .
 
-# Libgen DB dump
+# Database Setup
 
-https://libgen.rs/dbdumps/libgen_compact.rar
+create a mysql/mariadb database from this dump file and then connect prisma to this database:
+
+`https://mega.nz/file/Uj5VGZhJ#zVXZ_I7M4yRIFtfq8WWsTKWNN2dRTNoBVKSiPrdwcCI`

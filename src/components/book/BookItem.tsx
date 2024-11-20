@@ -1,13 +1,14 @@
 import { Book } from "@/utils/utils";
 import { IconCalendarEvent, IconNews } from "@tabler/icons-react";
+import Link from "next/link";
 
 export default function BookItem({ book }: { book: Book }) {
   return (
     <div className="relative group">
       <div className="absolute -inset-0.5 bg-pink-300 rounded-lg blur-sm opacity-0 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-      <a
+      <Link
         className="relative rounded-lg bg-stone-800 p-2 block"
-        href={`http://library.lol/main/${book.md5}`}
+        href={`/books/${book.id}`}
         target="_blank"
       >
         <div className="flex flex-row justify-between">
@@ -41,7 +42,7 @@ export default function BookItem({ book }: { book: Book }) {
           <span>{book.author}</span>
           <span>{book.publisher}</span>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

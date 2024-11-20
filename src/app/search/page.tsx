@@ -3,6 +3,7 @@ import BookList from "@/components/book/BookList";
 import { Book, isWhitespace } from "@/utils/utils";
 import useSWR from "swr";
 import Loading from "./loading";
+import SearchBar from "@/components/search/SearchBar";
 
 const fetcher = (input: RequestInfo | URL, init?: RequestInit) =>
   fetch(input, init).then((res) => res.json());
@@ -19,15 +20,24 @@ export default async function SearchResults({
     const { data, error, isLoading } = useSWR<{
       books: Book[];
       queryTime: number;
-    }>(`/search/api?q=${encodeURIComponent(query)}`, fetcher);
+    }>(`/search/api?q=${encodeURIComponent(query)}`, fetcher, {
+      refreshInterval: 1000 * 60 * 60,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnMount: false,
+      revalidateOnReconnect: false,
+    });
 
     if (error) throw Error(error);
     if (isLoading) return <Loading />;
     return (
-      <BookList
-        books={data?.books ?? []}
-        queryTime={data?.queryTime ?? 0}
-      ></BookList>
+      <>
+        <SearchBar />
+        <BookList
+          books={data?.books ?? []}
+          queryTime={data?.queryTime ?? 0}
+        ></BookList>
+      </>
     );
   } catch (error) {
     throw Error(

@@ -54,11 +54,6 @@ export default function SortBox() {
       modifiers={[restrictToHorizontalAxis]}
     >
       <div className="flex flex-row items-center gap-2">
-        <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-          {items.map((item) => (
-            <SortItem key={item.id} sortItem={item} />
-          ))}
-        </SortableContext>
         {sortOptions.length > 0 && (
           <Menu width={200} shadow="md">
             <Menu.Target>
@@ -80,6 +75,11 @@ export default function SortBox() {
             </Menu.Dropdown>
           </Menu>
         )}
+        <SortableContext items={items} strategy={horizontalListSortingStrategy}>
+          {items.map((item) => (
+            <SortItem key={item.id} sortItem={item} />
+          ))}
+        </SortableContext>
       </div>
     </DndContext>
   );
