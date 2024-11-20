@@ -9,8 +9,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("q");
   if (!query || isWhitespace(query))
     throw Error("please provide a valid query search parameter!");
-  console.log("calling prisma📅");
-
+  
   const data = await prisma.books_query.findMany({
     where: {
       AND: query
